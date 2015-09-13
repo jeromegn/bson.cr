@@ -1,6 +1,6 @@
 # BSON
 
-Native BSON parser and serializer written in Crystal.
+BSON implementation written in Crystal.
 
 ## Installation
 

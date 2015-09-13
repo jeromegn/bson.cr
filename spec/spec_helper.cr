@@ -1,2 +1,2 @@
 require "spec"
-require "../src/BSON"
+require "../src/bson"

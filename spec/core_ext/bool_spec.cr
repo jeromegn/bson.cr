@@ -1,4 +1,4 @@
-require "./spec_helper"
+require "../spec_helper"
 
 describe Bool do
 
@@ -7,7 +7,9 @@ describe Bool do
     describe "when the boolean is true" do
 
       it "returns true" do
-        Bool.from_bson(1.chr).should eq(true)
+        io, writer = IO.pipe
+        writer.write(UInt8[0x01])
+        Bool.from_bson(io).should eq(true)
       end
 
     end
@@ -15,7 +17,9 @@ describe Bool do
     describe "when the boolean is false" do
 
       it "returns false" do
-        Bool.from_bson(0.chr).should eq(false)
+        io, writer = IO.pipe
+        writer.write(UInt8[0x00])
+        Bool.from_bson(io).should eq(false)
       end
 
     end
