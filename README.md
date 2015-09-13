@@ -24,6 +24,16 @@ TODO: Write usage instructions here
 
 TODO: Write development instructions here
 
+## TODOs
+
+- [ ] Add the various serialization methods (`to_bson`) to core types
+- [ ] `Code` type
+- [ ] `CodeWithScope` type
+- [ ] `Timestamp` type
+- [ ] `MinKey` type
+- [ ] `MaxKey` type
+- [ ] Far more tests
+
 ## Contributing
 
 1. Fork it ( https://github.com/jeromegn/bson.cr/fork )
