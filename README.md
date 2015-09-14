@@ -1,6 +1,6 @@
 # BSON
 
-BSON implementation written in Crystal.
+BSON implemented in Crystal according to the [spec](http://bsonspec.org/spec.html).
 
 ## Installation
 
@@ -38,9 +38,17 @@ doc.to_bson(writer) # => Encodes the whole document to BSON and writes to the IO
 puts BSON.decode(bson) # => { "name" => "hello", "int" => 32 }
 ```
 
+## Supported types
+
+All types specified in the [BSON spec](http://bsonspec.org/spec.html).
+
+Relevant basic types of Crystal have been extended to add `#to_bson(IO)` and `.from_bson(IO)` for simplicity.
+
+A `BSON::Document` is not much more than a `Hash(String, BSON::ValueType)`
+
 ## TODOs
 
-- [ ] Far more tests
+- [ ] More tests
 
 ## Caveats
 
