@@ -3,6 +3,8 @@ require "crypto/md5"
 module BSON
   class ObjectId
 
+    getter :bytes
+
     def initialize
       @bytes = @@generator.next_object_id
     end
@@ -36,9 +38,17 @@ module BSON
       12
     end
 
+    def ==(other : ObjectId)
+      bytes == other.bytes
+    end
+
+    def self.generator
+      @@generator
+    end
+
     class Generator
 
-      getter :machine_id
+      getter :machine_id, :counter
 
       def initialize
         @counter = 0

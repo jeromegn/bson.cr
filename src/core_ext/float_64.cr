@@ -12,11 +12,11 @@ struct Float64
 
   def to_bytes(type = :little_endian)
     n = self
-    Slice(UInt8).new(pointerof(n) as UInt8*, 8)
+    Slice(UInt8).new(pointerof(n) as UInt8*, sizeof(typeof(n)))
   end
 
   def bson_size
-    sizeof(typeof(Float64))
+    sizeof(Float64)
   end
 
 end
