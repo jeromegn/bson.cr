@@ -38,7 +38,7 @@ module BSON
     bson.write(UInt8[BSON::NULL_BYTE])
   end
 
-  def parse(bson : IO)
+  def decode(bson : IO)
     Document.from_bson(bson)
   end
 
