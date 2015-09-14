@@ -18,20 +18,20 @@ class Array(T)
   end
 
   def to_bson(bson : IO)
-    puts "Array to bson"
-    puts self
+    BSON.logger.debug "Array to bson"
+    BSON.logger.debug self
     bson_size.to_bson(bson)
-    puts "added size.."
+    BSON.logger.debug "added size.."
     each_with_index do |value, index|
-      puts "Encoding array value of index #{index} (#{value.class})"
+      BSON.logger.debug "Encoding array value of index #{index} (#{value.class})"
       bson.write(UInt8[BSON.byte_for_type(value.class)])
-      puts "wrote array value type..."
+      BSON.logger.debug "wrote array value type..."
       bson.write(UInt8[index])
-      puts "write index number..."
+      BSON.logger.debug "write index number..."
       BSON.append_null_byte(bson)
-      puts "wrote null byte"
+      BSON.logger.debug "wrote null byte"
       value.to_bson(bson)
-      puts "wrote value!"
+      BSON.logger.debug "wrote value!"
     end
     BSON.append_null_byte(bson)
   end

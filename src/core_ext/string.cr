@@ -16,13 +16,15 @@ class String
   end
 
   def to_bson(bson : IO)
-    bson_size.to_bson(bson)
+    (bytesize + 1).to_bson(bson)
     bson.write(to_slice)
     BSON.append_null_byte(bson) # null ending
   end
 
   def bson_size
-    bytesize + 1
+    sizeof(Int32) + # size of the String as a Int32
+    bytesize + # actual bytes occupied by the String
+    1 # null byte endings
   end
 
 end

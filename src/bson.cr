@@ -1,7 +1,9 @@
+require "logger"
 require "./core_ext/*"
 require "./bson/*"
 
 module BSON
+  extend self
 
   alias ValueType = Float64 | String | Document | Array(ValueType) | Binary | Undefined | ObjectId | Bool | Time | Nil | Regex | DBPointer | Code | Symbol | CodeWithScope | Int32 | Timestamp | Int64 | MinKey | MaxKey
 
@@ -32,24 +34,30 @@ module BSON
 
   NULL_BYTE = 0x00
 
-  def self.append_null_byte(bson : IO)
+  def append_null_byte(bson : IO)
     bson.write(UInt8[BSON::NULL_BYTE])
   end
 
-  def self.parse(bson : IO)
+  def parse(bson : IO)
     Document.from_bson(bson)
   end
 
-  def self.key_from_bson(bson : IO)
+  def key_from_bson(bson : IO)
     bson.gets(0.chr).not_nil!.chop
   end
 
-  def self.type_for_byte(byte)
+  def type_for_byte(byte)
     TYPES[byte.not_nil!]
   end
 
-  def self.byte_for_type(type)
+  def byte_for_type(type)
     TYPES_BY_CLASS[type]
   end
 
+  def logger
+    @@logger ||= Logger.new(STDOUT)
+  end
+
 end
+
+BSON.logger.level = Logger::INFO

@@ -15,7 +15,7 @@ module BSON
 
     def to_bson(bson : IO)
       bson_size.to_bson(bson)
-      js.to_bson(bson)
+      javascript.to_bson(bson)
       scope.to_bson(bson)
     end
 

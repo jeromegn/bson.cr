@@ -12,11 +12,11 @@ module BSON
 
     def to_bson(bson : IO)
       increment.to_bson(bson)
-      time.epoch.to_bson(bson) # Int32
+      time.epoch.to_i32.to_bson(bson) # Int32
     end
 
     def bson_size
-      sizeof(Int32) + sizeof(Int32)
+      sizeof(Int64)
     end
 
   end

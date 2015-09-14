@@ -2,7 +2,7 @@ module BSON
   class Undefined
 
     def self.from_bson(bson : IO)
-      nil
+      new
     end
 
     def to_bson(bson : IO)

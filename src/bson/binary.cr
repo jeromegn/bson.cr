@@ -10,7 +10,7 @@ module BSON
       :uuid_old => 3,
       :uuid => 4,
       :md5 => 5,
-      :user => 128.chr
+      :user => 128
     }
 
     TYPES = SUBTYPES.invert
@@ -26,8 +26,8 @@ module BSON
     end
 
     def to_bson(bson : IO)
-      bson_size.to_bson(bson)
-      bson.write(SUBTYPES[type])
+      data.length.to_bson(bson)
+      bson.write(UInt8[SUBTYPES[type]])
       data.length.to_bson(bson) if old?
       bson.write(data)
     end
@@ -37,10 +37,11 @@ module BSON
     end
 
     def bson_size
-      size = 4 + # size prefix
+      size = sizeof(Int32) + # size prefix
         1 + # subtype
         data.length # actual data size
-      size += 4 if old?
+      size += 4 if old? # if this is an old type binary
+      size
     end
 
   end
