@@ -11,4 +11,8 @@ struct Bool
     bson.write(UInt8[self == true ? BSON_TRUE_BYTE : BSON_FALSE_BYTE])
   end
 
+  def bson_size
+    1
+  end
+
 end

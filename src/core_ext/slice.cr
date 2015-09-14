@@ -18,4 +18,8 @@ struct Slice(T)
     (pointerof(tuples64) as Float64*).value
   end
 
+  def self.for(obj)
+    new(pointerof(obj) as UInt8*, sizeof(typeof(obj)))
+  end
+
 end
