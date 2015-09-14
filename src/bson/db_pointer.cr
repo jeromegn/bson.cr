@@ -1,9 +1,9 @@
 module BSON
-  class Code
+  class DBPointer
 
-    property :javascript
+    property :pointer
 
-    def initialize(@javascript = "")
+    def initialize(@pointer = "")
     end
 
     def self.from_bson(bson : IO)
@@ -11,11 +11,11 @@ module BSON
     end
 
     def to_bson(bson : IO)
-      javascript.to_bson(bson)
+      pointer.to_bson(bson)
     end
 
     def bson_size
-      javascript.bson_size
+      pointer.bson_size
     end
 
   end

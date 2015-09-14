@@ -1,9 +1,9 @@
 module BSON
-  class Code
+  class Symbol
 
-    property :javascript
+    property :string
 
-    def initialize(@javascript = "")
+    def initialize(@string = "")
     end
 
     def self.from_bson(bson : IO)
@@ -11,11 +11,11 @@ module BSON
     end
 
     def to_bson(bson : IO)
-      javascript.to_bson(bson)
+      string.to_bson(bson)
     end
 
     def bson_size
-      javascript.bson_size
+      string.bson_size
     end
 
   end
