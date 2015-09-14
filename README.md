@@ -26,14 +26,11 @@ TODO: Write development instructions here
 
 ## TODOs
 
-- [x] Add the various serialization methods (`to_bson`) to core types
-- [ ] `Binary` type
-- [ ] `Code` type
-- [ ] `CodeWithScope` type
-- [ ] `Timestamp` type
-- [ ] `MinKey` type
-- [ ] `MaxKey` type
 - [ ] Far more tests
+
+## Caveats
+
+- Only supported Regex options are the ones also supported by Crystal: `i` and `m` basically.
 
 ## Contributing
 
