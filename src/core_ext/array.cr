@@ -26,7 +26,7 @@ class Array(T)
       BSON.logger.debug "Encoding array value of index #{index} (#{value.class})"
       bson.write(UInt8[BSON.byte_for_type(value.class)])
       BSON.logger.debug "wrote array value type..."
-      bson.write(UInt8[index])
+      bson << index.to_s
       BSON.logger.debug "write index number..."
       BSON.append_null_byte(bson)
       BSON.logger.debug "wrote null byte"
@@ -37,12 +37,20 @@ class Array(T)
   end
 
   def bson_size
-    sizeof(Int32) + # Size of the array
-    length + # Type of each key
-    [0..length - 1].map(&.to_s).sum(&.bytesize) + # Index number
-    length + # null byte for each index
-    sum(&.bson_size) +
-    1 # null byte
+    size = sizeof(Int32) # Size of the array
+    each_with_index do |value, index|
+      size += 1 + # one-byte type
+        index.to_s.bytesize + # the index number's size
+        1 + # null byte after each index
+        value.bson_size
+    end
+    size += 1 # null byte
+
+    # length + # Type of each key
+    # [0..length - 1].map(&.to_s).sum(&.bytesize) + # Index number
+    # length + # null byte for each index
+    # sum(&.bson_size) +
+    # 1 # null byte
   end
 
 end

@@ -49,9 +49,9 @@ module BSON
     def bson_size
       sizeof(Int32) + # doc size display
       keys.length + # each key shows a type
+      keys.sum(&.bytesize) + # all the keys size
       keys.length + # each key as a null thing
-      keys.sum {|k| BSON.logger.debug "k: #{k} (#{k.bytesize} bytes)"; k.bytesize } + # all the keys size
-      values.sum {|v| BSON.logger.debug "v: #{v} (#{v.bson_size} bytes)"; v.bson_size } + # all the values size
+      values.sum(&.bson_size) + # all the values size
       1 # null ending
     end
 
