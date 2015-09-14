@@ -26,7 +26,8 @@ TODO: Write development instructions here
 
 ## TODOs
 
-- [ ] Add the various serialization methods (`to_bson`) to core types
+- [x] Add the various serialization methods (`to_bson`) to core types
+- [ ] `Binary` type
 - [ ] `Code` type
 - [ ] `CodeWithScope` type
 - [ ] `Timestamp` type
