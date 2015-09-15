@@ -4,12 +4,13 @@ require "benchmark"
 count = 1_000_000
 Benchmark.bm do |bench|
 
-  bson_file = File.open(File.expand_path("examples/sample.bson"))
+  document = BSON::Document {"field1": "test", "field2": "hello"}
+  embedded = [] of BSON::ValueType
 
-  document = BSON.decode(bson_file)
+  5.times { embedded << BSON::Document{ "field1": 10, "field2": "test" } }
+  document["embedded"] = embedded
 
   bson = StringIO.new
-
   bench.report("Document#to_bson ------>") do
     count.times { document.to_bson(bson) }
   end
@@ -41,7 +42,7 @@ Benchmark.bm do |bench|
 
   bson.clear
   bench.report("Int64#to_bson ------->") do
-    count.times { Int64::MAX.to_bson(bson) }
+    count.times { (Int32::MAX + 1).to_bson(bson) }
   end
 
   bson.clear
@@ -102,13 +103,13 @@ Benchmark.bm do |bench|
   end
 
   int64_bytes = StringIO.new
-  Int64::MAX.to_bson(int64_bytes)
+  (Int32::MAX + 1).to_bson(int64_bytes)
   bench.report("Int64#from_bson ------->") do
     count.times { int64_bytes.rewind; Int64.from_bson(int64_bytes) }
   end
 
   float64_bytes = StringIO.new
-  Float64::MAX.to_bson(float64_bytes)
+  Float64::MIN.to_bson(float64_bytes)
   bench.report("Float64#from_bson ------->") do
     count.times { float64_bytes.rewind; Float64.from_bson(float64_bytes) }
   end
