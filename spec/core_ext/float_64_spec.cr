@@ -5,22 +5,19 @@ describe Float64 do
   describe ".from_bson" do
 
     it "returns a Float64" do
-      f = 100.to_f64
-      r, w = IO.pipe
-      w.write(f.to_bytes)
-      Float64.from_bson(r).should eq(f)
+      [100, 2000, 30000, 400000].map(&.to_f64).each do |f|
+        Float64.from_bson(f.to_bson.rewind).should eq(f)
+      end
     end
     
   end
 
   describe "#to_bson" do
 
-    it "puts the corrent bytes" do
-      f = 200.to_f64
-      r, w = IO.pipe
-      f.to_bson(w)
-
-      r.next_bytes(8).to_f64.should eq(200)
+    it "puts the correct bytes" do
+      [100, 2000, 30000, 400000].map(&.to_f64).each do |f|
+        f.to_bson.rewind.next_bytes(8).to_f64.should eq(f)
+      end
     end
 
   end

@@ -1,5 +1,6 @@
 module BSON
   class Code
+    include BSON::Value
 
     property :javascript
 

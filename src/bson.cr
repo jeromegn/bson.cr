@@ -1,6 +1,7 @@
 require "logger"
-require "./core_ext/*"
+require "./bson/value"
 require "./bson/*"
+require "./core_ext/*"
 
 module BSON
   extend self
@@ -32,10 +33,10 @@ module BSON
 
   TYPES_BY_CLASS = TYPES.invert
 
-  NULL_BYTE = 0x00
+  NULL_BYTE = 0u8
 
   def append_null_byte(bson : IO)
-    bson.write(UInt8[BSON::NULL_BYTE])
+    bson.write_byte(BSON::NULL_BYTE)
   end
 
   def decode(bson : IO)

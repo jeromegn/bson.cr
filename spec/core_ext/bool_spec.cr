@@ -7,9 +7,7 @@ describe Bool do
     describe "when the boolean is true" do
 
       it "returns true" do
-        io, writer = IO.pipe
-        writer.write(UInt8[0x01])
-        Bool.from_bson(io).should eq(true)
+        Bool.from_bson(true.to_bson.rewind).should eq(true)
       end
 
     end
@@ -17,9 +15,7 @@ describe Bool do
     describe "when the boolean is false" do
 
       it "returns false" do
-        io, writer = IO.pipe
-        writer.write(UInt8[0x00])
-        Bool.from_bson(io).should eq(false)
+        Bool.from_bson(false.to_bson.rewind).should eq(false)
       end
 
     end
@@ -28,15 +24,11 @@ describe Bool do
   describe "#to_bson" do
     
     it "returns the true byte when true" do
-      io, writer = IO.pipe
-      true.to_bson(writer)
-      io.read_byte.should eq(1)
+      true.to_bson.rewind.read_byte.should eq(1)
     end
 
     it "returns the false byte when false" do
-      io, writer = IO.pipe
-      false.to_bson(writer)
-      io.read_byte.should eq(0)
+      false.to_bson.rewind.read_byte.should eq(0)
     end
 
   end

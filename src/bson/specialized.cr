@@ -1,5 +1,6 @@
 module BSON
   module Specialized
+    include BSON::Value
 
     def to_bson(bson : IO)
       # Do nothing

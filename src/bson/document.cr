@@ -1,5 +1,6 @@
 module BSON
   class Document < Hash(String, BSON::ValueType)
+    include BSON::Value
 
     def id
       self["_id"]
@@ -25,11 +26,6 @@ module BSON
       doc
     end
 
-    def to_bson
-      io = StringIO.new("")
-      to_bson(io)
-    end
-
     def to_bson(bson : IO)
       bson_size.to_bson(bson)
       each do |key, value|
@@ -48,9 +44,9 @@ module BSON
 
     def bson_size
       sizeof(Int32) + # doc size display
-      keys.length + # each key shows a type
+      keys.size + # each key shows a type
       keys.sum(&.bytesize) + # all the keys size
-      keys.length + # each key as a null thing
+      keys.size + # each key as a null thing
       values.sum(&.bson_size) + # all the values size
       1 # null ending
     end

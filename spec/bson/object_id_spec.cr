@@ -3,20 +3,20 @@ require "../spec_helper"
 describe BSON::ObjectId do
 
   it ".from_bson" do
-    r,w = IO.pipe
+    io = StringIO.new
     t = Time.utc_now
-    t.epoch.to_i32.to_bson(w)
-    w.write(Slice(UInt8).new(8))
-    oid = BSON::ObjectId.from_bson(r)
+    t.epoch.to_i32.to_bson(io)
+    io.write(Slice(UInt8).new(8))
+    oid = BSON::ObjectId.from_bson(io.rewind)
     oid.generation_time.should eq(Time.epoch(t.epoch))
-    oid.to_s.length.should eq(24)
+    oid.to_s.size.should eq(24)
   end
 
   it "instantiate" do
     oid = BSON::ObjectId.new
 
-    oid.to_s.length.should eq(24)
-    oid.bytes.length.should eq(12)
+    oid.to_s.size.should eq(24)
+    oid.bytes.size.should eq(12)
 
     # first 4 bytes is seconds since unix epoch
     oid.bytes[0,4].to_i32.should eq(Time.utc_now.epoch)

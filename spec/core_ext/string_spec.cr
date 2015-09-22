@@ -7,22 +7,19 @@ describe String do
     it "encodes in the right format" do
 
       str = "hello"
-      r, w = IO.pipe
-      str.to_bson(w)
+      io = str.to_bson.rewind
 
-      size = Int32.from_bson(r)
+      size = Int32.from_bson(io)
       size.should eq(str.bytesize + 1)
 
-      r.next_bytes(size - 1).map(&.chr).join("").should eq(str)
+      io.next_bytes(size - 1).map(&.chr).join("").should eq(str)
 
-      r.read_byte.should eq(BSON::NULL_BYTE)
+      io.read_byte.should eq(0) # null ending
     end
 
     it "can be decoded as BSON again" do
       str = "hello world"
-      r, w = IO.pipe
-      str.to_bson(w)
-      String.from_bson(r).should eq(str)
+      String.from_bson(str.to_bson.rewind).should eq(str)
     end
 
   end

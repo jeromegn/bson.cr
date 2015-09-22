@@ -1,5 +1,6 @@
 module BSON
   class Binary
+    include BSON::Value
 
     getter :data, :type
 
@@ -26,9 +27,9 @@ module BSON
     end
 
     def to_bson(bson : IO)
-      data.length.to_bson(bson)
+      data.size.to_bson(bson)
       bson.write(UInt8[SUBTYPES[type]])
-      data.length.to_bson(bson) if old?
+      data.size.to_bson(bson) if old?
       bson.write(data)
     end
 
@@ -39,7 +40,7 @@ module BSON
     def bson_size
       size = sizeof(Int32) + # size prefix
         1 + # subtype
-        data.length # actual data size
+        data.size # actual data size
       size += 4 if old? # if this is an old type binary
       size
     end

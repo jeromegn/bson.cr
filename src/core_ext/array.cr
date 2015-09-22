@@ -1,4 +1,5 @@
 class Array(T)
+  include BSON::Value
 
   def self.from_bson(bson : IO)
     size = Int32.from_bson(bson)
@@ -45,12 +46,6 @@ class Array(T)
         value.bson_size
     end
     size += 1 # null byte
-
-    # length + # Type of each key
-    # [0..length - 1].map(&.to_s).sum(&.bytesize) + # Index number
-    # length + # null byte for each index
-    # sum(&.bson_size) +
-    # 1 # null byte
   end
 
 end

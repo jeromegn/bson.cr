@@ -1,4 +1,5 @@
 struct Int32
+  include BSON::Value
   
   def self.from_bson(bson : IO)
     bytes = Slice(UInt8).new(4)
@@ -6,14 +7,20 @@ struct Int32
     bytes.to_i32
   end
 
-  # Little-endian
   def to_bson(bson : IO)
-    bson.write(to_bytes)
+    bson.write(to_slice)
   end
 
-  def to_bytes(type = :little_endian)
-    arr = [self, self >> 8, self >> 16, self >> 24].map(&.to_u8)
-    type == :little_endian ? arr : arr.reverse
+  def bytes
+    {self, self >> 8, self >> 16, self >> 24}.map(&.to_u8)
+  end
+
+  def to_slice
+    slice = Slice(UInt8).new(bytes.size)
+    bytes.map(&.to_u8).each_with_index do |byte, i|
+      slice[i] = byte
+    end
+    slice
   end
 
   def bson_size

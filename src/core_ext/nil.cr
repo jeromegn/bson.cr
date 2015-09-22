@@ -1,4 +1,5 @@
 struct Nil
+  include BSON::Value
 
   def self.from_bson(bson : IO)
     nil

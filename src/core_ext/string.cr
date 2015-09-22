@@ -1,4 +1,5 @@
 class String
+  include BSON::Value
 
   # Cast a String value from a BSON IO
   # 
@@ -16,15 +17,18 @@ class String
   end
 
   def to_bson(bson : IO)
-    (bytesize + 1).to_bson(bson)
+    bson_bytesize.to_bson(bson)
     bson.write(to_slice)
     BSON.append_null_byte(bson) # null ending
   end
 
+  def bson_bytesize
+    bytesize + 1
+  end
+
   def bson_size
     sizeof(Int32) + # size of the String as a Int32
-    bytesize + # actual bytes occupied by the String
-    1 # null byte endings
+    bson_bytesize # actual bytes occupied by the String + null ending
   end
 
 end

@@ -7,12 +7,19 @@ struct Int64
   end
 
   def to_bson(bson : IO)
-    bson.write(to_bytes)
+    bson.write(to_slice)
   end
 
-  def to_bytes(type = :little_endian)
-    arr = [self, self >> 8, self >> 16, self >> 24, self >> 32, self >> 40, self >> 48, self >> 56].map(&.to_u8)
-    type == :little_endian ? arr : arr.reverse
+  def bytes
+    {self, self >> 8, self >> 16, self >> 24, self >> 32, self >> 40, self >> 48, self >> 56}.map(&.to_u8)
+  end
+
+  def to_slice
+    slice = Slice(UInt8).new(bytes.size)
+    bytes.map(&.to_u8).each_with_index do |byte, i|
+      slice[i] = byte
+    end
+    slice
   end
 
   def bson_size

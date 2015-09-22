@@ -1,4 +1,5 @@
 struct Bool
+  include BSON::Value
 
   BSON_TRUE_BYTE = 0x01
   BSON_FALSE_BYTE = 0x00

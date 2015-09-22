@@ -2,6 +2,7 @@ require "crypto/md5"
 
 module BSON
   class ObjectId
+    include BSON::Value
 
     getter :bytes
 
@@ -68,13 +69,12 @@ module BSON
 
       def generate(time, counter = 0)
         bytes = Slice(UInt8).new(12)
-        [0,1,2,3].each { |i| bytes[i] = time.to_i32.to_bytes[i] }
+        [0,1,2,3].each { |i| bytes[i] = time.to_i32.bytes[i] }
         machine_id_slice = Slice(UInt8).new(pointerof(@machine_id) as UInt8*, 3)
         [4,5,6].each { |i| bytes[i] = machine_id_slice[i - 4] }
-        [7,8].each { |i| bytes[i] = process_id.to_bytes[i - 7] }
-        [9,10,11].each { |i| bytes[i] = counter.to_bytes[i - 9] }
+        [7,8].each { |i| bytes[i] = process_id.bytes[i - 7] }
+        [9,10,11].each { |i| bytes[i] = counter.bytes[i - 9] }
         bytes
-        # time.to_bytes + .to_a + process_id.to_bytes + counter.to_bytes
       end
 
       def process_id
