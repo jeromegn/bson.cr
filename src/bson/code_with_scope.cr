@@ -8,7 +8,7 @@ module BSON
     end
 
     def self.from_bson(bson : IO)
-      bson.read(4) # Throw away the total length.
+      bson.skip(4) # Throw away the total length.
       js = String.from_bson_bytes(bson.next_bytes(Int32.from_bson(bson)))
       scope = Document.from_bson(bson)
       new(js, scope)

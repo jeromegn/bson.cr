@@ -26,7 +26,7 @@ module BSON
     0x0F => CodeWithScope,
     0x10 => Int32,
     0x11 => Timestamp,
-    0x12 => Int64
+    0x12 => Int64,
     0xFF => MinKey, # internal
     0x7F => MaxKey # internal
   }

@@ -3,7 +3,7 @@ require "../spec_helper"
 describe BSON::ObjectId do
 
   it ".from_bson" do
-    io = StringIO.new
+    io = MemoryIO.new
     t = Time.utc_now
     t.epoch.to_i32.to_bson(io)
     io.write(Slice(UInt8).new(8))

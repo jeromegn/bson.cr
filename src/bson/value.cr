@@ -2,7 +2,7 @@ module BSON
   module Value
 
     def to_bson
-      io = StringIO.new
+      io = MemoryIO.new
       to_bson(io)
       io
     end

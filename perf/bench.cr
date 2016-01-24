@@ -1,8 +1,9 @@
 require "../src/bson"
 require "benchmark"
 
-count = 1_000_000
 Benchmark.bm do |bench|
+
+  count = 1_000_000
 
   document = BSON::Document {"field1": "test", "field2": "hello"}
   embedded = [] of BSON::ValueType

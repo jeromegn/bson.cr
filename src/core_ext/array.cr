@@ -48,4 +48,8 @@ class Array(T)
     size += 1 # null byte
   end
 
+  def as_slice
+    Slice.new(to_unsafe, size)
+  end
+
 end

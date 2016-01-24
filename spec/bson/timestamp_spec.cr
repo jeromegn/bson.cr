@@ -5,7 +5,7 @@ describe BSON::Timestamp do
   describe ".from_bson" do
 
     it "decodes to the correct time" do
-      io = StringIO.new
+      io = MemoryIO.new
       time = Time.utc_now
       
       1.to_i32.to_bson(io)
@@ -25,7 +25,7 @@ describe BSON::Timestamp do
       time = Time.utc_now
       ts = BSON::Timestamp.new(1, time)
 
-      io = StringIO.new
+      io = MemoryIO.new
       ts.to_bson(io)
 
       Int32.from_bson(io.rewind).should eq(1)
