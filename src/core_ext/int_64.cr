@@ -1,29 +1,22 @@
 struct Int64
   
   def self.from_bson(bson : IO)
-    bytes = Slice(UInt8).new(8)
-    bson.read(bytes)
-    bytes.to_i64
+    bson.next_bytes(sizeof(Int64)).to_i64
   end
 
   def to_bson(bson : IO)
-    bson.write(to_slice)
-  end
-
-  def bytes
-    {self, self >> 8, self >> 16, self >> 24, self >> 32, self >> 40, self >> 48, self >> 56}.map(&.to_u8)
+    to_io(bson, IO::ByteFormat::LittleEndian)
   end
 
   def to_slice
-    slice = Slice(UInt8).new(bytes.size)
-    bytes.map(&.to_u8).each_with_index do |byte, i|
-      slice[i] = byte
-    end
+    slice = Slice(UInt8).new(sizeof(Int64))
+    io = MemoryIO.new(slice)
+    to_io(io, IO::ByteFormat::LittleEndian)
     slice
   end
 
   def bson_size
-    sizeof(typeof(Int64))
+    sizeof(Int64)
   end
 
 end

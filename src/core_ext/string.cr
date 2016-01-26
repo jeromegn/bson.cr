@@ -8,6 +8,7 @@ class String
   # 
   # Ends with a null byte (0x00)
   def self.from_bson(bson : IO)
+    
     size = Int32.from_bson(bson)
     from_bson_bytes(bson.next_bytes(size))
   end

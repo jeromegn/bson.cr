@@ -40,19 +40,19 @@ io = File.open(File.expand_path("examples/sample.bson"))
 doc = BSON.decode(io)
 puts doc
 
-r, w = IO.pipe
-doc.to_bson(w)
+bson = MemoryIO.new
+doc.to_bson(bson)
 
 # until !(byte = r.read_byte)
 #   puts "#{byte.inspect} (#{byte.not_nil!.chr.inspect})"
 # end
 
-puts BSON.decode(r)
+puts BSON.decode(bson.rewind)
 
-bson, writer = IO.pipe
-"a string".to_bson(writer) # => encodes the string to BSON and writes to the IO
+bson = MemoryIO.new
+"a string".to_bson(bson) # => encodes the string to BSON and writes to the IO
 
-puts String.from_bson(bson).inspect # => "a string"
+puts String.from_bson(bson.rewind).inspect # => "a string"
 
 doc = BSON::Document{
   "name" => "hello",
@@ -61,7 +61,7 @@ doc = BSON::Document{
 
 puts doc # => { "name" => "hello", "int" => 32 }
 
-bson, writer = IO.pipe
-doc.to_bson(writer) # => Encodes the whole document to BSON and writes to the IO
+bson = MemoryIO.new
+doc.to_bson(bson) # => Encodes the whole document to BSON and writes to the IO
 
-puts BSON.decode(bson) # => { "name" => "hello", "int" => 32 }
+puts BSON.decode(bson.rewind) # => { "name" => "hello", "int" => 32 }
