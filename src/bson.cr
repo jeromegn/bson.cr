@@ -9,26 +9,26 @@ module BSON
   alias ValueType = Float64 | String | Document | Array(ValueType) | Binary | Undefined | ObjectId | Bool | Time | Nil | Regex | DBPointer | Code | Symbol | CodeWithScope | Int32 | Timestamp | Int64 | MinKey | MaxKey
 
   TYPES = Hash{
-    1 => Float64,
-    2 => String,
-    3 => Document,
-    4 => Array(ValueType),
-    5 => Binary,
-    6 => Undefined, # deprecated
-    7 => ObjectId,
-    8 => Bool,
-    9 => Time,
-    10 => Nil,
-    0x0B => Regex,
-    0x0C => DBPointer, # deprecated
-    0x0D => Code,
-    0x0E => Symbol, # deprecated
-    0x0F => CodeWithScope,
-    0x10 => Int32,
-    0x11 => Timestamp,
-    0x12 => Int64,
-    0xFF => MinKey, # internal
-    0x7F => MaxKey # internal
+    1_u8 => Float64,
+    2_u8 => String,
+    3_u8 => Document,
+    4_u8 => Array(ValueType),
+    5_u8 => Binary,
+    6_u8 => Undefined, # deprecated
+    7_u8 => ObjectId,
+    8_u8 => Bool,
+    9_u8 => Time,
+    10_u8 => Nil,
+    0x0B_u8 => Regex,
+    0x0C_u8 => DBPointer, # deprecated
+    0x0D_u8 => Code,
+    0x0E_u8 => Symbol, # deprecated
+    0x0F_u8 => CodeWithScope,
+    0x10_u8 => Int32,
+    0x11_u8 => Timestamp,
+    0x12_u8 => Int64,
+    0xFF_u8 => MinKey, # internal
+    0x7F_u8 => MaxKey # internal
   }
 
   TYPES_BY_CLASS = TYPES.invert

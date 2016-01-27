@@ -5,13 +5,13 @@ module BSON
     getter :data, :type
 
     SUBTYPES = Hash{
-      :generic => 0,
-      :function => 1,
-      :old => 2,
-      :uuid_old => 3,
-      :uuid => 4,
-      :md5 => 5,
-      :user => 128
+      :generic => 0_u8,
+      :function => 1_u8,
+      :old => 2_u8,
+      :uuid_old => 3_u8,
+      :uuid => 4_u8,
+      :md5 => 5_u8,
+      :user => 128_u8
     }
 
     TYPES = SUBTYPES.invert
@@ -28,7 +28,7 @@ module BSON
 
     def to_bson(bson : IO)
       data.size.to_bson(bson)
-      bson.write(UInt8[SUBTYPES[type]])
+      bson.write_byte SUBTYPES[type]
       data.size.to_bson(bson) if old?
       bson.write(data)
     end

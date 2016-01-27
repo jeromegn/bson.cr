@@ -30,7 +30,7 @@ module BSON
       bson_size.to_bson(bson)
       each do |key, value|
         BSON.logger.debug "Encoding key #{key} (#{value.class})"
-        bson.write(UInt8[BSON.byte_for_type(value.class)])
+        bson.write(Slice(UInt8).new(1, BSON.byte_for_type(value.class)))
         BSON.logger.debug "Wrote type byte..."
         bson << key
         BSON.logger.debug "Wrote key..."

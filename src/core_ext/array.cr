@@ -25,7 +25,7 @@ class Array(T)
     BSON.logger.debug "added size.."
     each_with_index do |value, index|
       BSON.logger.debug "Encoding array value of index #{index} (#{value.class})"
-      bson.write(UInt8[BSON.byte_for_type(value.class)])
+      bson.write_byte BSON.byte_for_type(value.class)
       BSON.logger.debug "wrote array value type..."
       bson << index.to_s
       BSON.logger.debug "write index number..."
