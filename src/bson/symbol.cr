@@ -1,5 +1,5 @@
 module BSON
-  class Symbol
+  struct Symbol
     include BSON::Value
 
     property :string

@@ -1,8 +1,11 @@
 module BSON
-  class CString
+  struct CString
     include BSON::Value
 
     getter string
+    delegate bytesize, @string
+
+
     def initialize(@string : String)
     end
 

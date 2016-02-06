@@ -1,5 +1,5 @@
 module BSON
-  class Undefined
+  struct Undefined
     include BSON::Value
     def self.from_bson(bson : IO)
       new

@@ -1,8 +1,8 @@
 module BSON
-  class DBPointer
+  struct DBPointer
     include BSON::Value
     
-    property :pointer
+    getter :pointer
 
     def initialize(@pointer = "")
     end

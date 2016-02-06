@@ -1,7 +1,7 @@
 require "crypto/md5"
 
 module BSON
-  class ObjectId
+  struct ObjectId
     include BSON::Value
 
     getter bytes

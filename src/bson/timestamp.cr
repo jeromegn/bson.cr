@@ -1,5 +1,5 @@
 module BSON
-  class Timestamp
+  struct Timestamp
     include BSON::Value
 
     getter :time, :increment

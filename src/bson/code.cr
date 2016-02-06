@@ -1,5 +1,5 @@
 module BSON
-  class Code
+  struct Code
     include BSON::Value
 
     property :javascript

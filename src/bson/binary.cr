@@ -1,5 +1,5 @@
 module BSON
-  class Binary
+  struct Binary
     include BSON::Value
 
     getter :data, :type

@@ -1,5 +1,5 @@
 module BSON
-  class Document < Hash(String | Symbol | BSON::CString, BSON::ValueType)
+  class Document < Hash(String | ::Symbol | BSON::CString, BSON::ValueType)
     include BSON::Value
 
     def id
@@ -42,14 +42,10 @@ module BSON
       BSON.append_null_byte(bson)
     end
 
-    def keys
-      super.map {|k| BSON::CString.new(k.to_s) }
-    end
-
     def bson_size
       sizeof(Int32) + # doc size display
-      keys.size + # each key shows a type
-      keys.sum(&.bson_size) + # all the keys size
+      (keys.size * 2) + # each key shows a type + null ending for each key
+      keys.map(&.to_s).sum(&.bytesize) + # all the keys size
       values.sum(&.bson_size) + # all the values size
       1 # null ending
     end

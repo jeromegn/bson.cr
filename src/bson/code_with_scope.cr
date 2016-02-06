@@ -1,5 +1,5 @@
 module BSON
-  class CodeWithScope
+  struct CodeWithScope
     include BSON::Value
 
     getter :javascript, :scope
