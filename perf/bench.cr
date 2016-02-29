@@ -5,10 +5,11 @@ Benchmark.bm do |bench|
 
   count = 1_000_000
 
-  document = BSON::Document {"field1": "test", "field2": "hello"}
-  embedded = [] of BSON::ValueType
+  document = Hash(String, BSON::Type){"field1": "test", "field2": "hello"}
+  embedded = [] of BSON::Type
 
-  5.times { embedded << BSON::Document{ "field1": 10, "field2": "test" } }
+  5.times {
+    embedded << Hash(String, BSON::Type){"field1": 10, "field2": "test"} }
   document["embedded"] = embedded
 
   bench.report("Document#to_bson -------->") do
@@ -69,7 +70,7 @@ Benchmark.bm do |bench|
   end
 
   bench.report("Symbol#to_bson ---------->") do
-    count.times { "testing".to_bson }
+    count.times { :testing.to_bson }
   end
 
   bench.report("Time#to_bson ------------>") do
@@ -91,7 +92,7 @@ Benchmark.bm do |bench|
     count.times { Int32.from_bson(int32_bytes.rewind) }
   end
 
-  int64_bytes = (Int32::MAX + 1).to_bson
+  int64_bytes = (Int32::MAX + 1).to_i64.to_bson
   bench.report("Int64#from_bson --------->") do
     count.times { Int64.from_bson(int64_bytes.rewind) }
   end
@@ -136,7 +137,7 @@ Benchmark.bm do |bench|
     count.times { String.from_bson(string_bytes.rewind) }
   end
 
-  symbol_bytes = "testing".to_bson
+  symbol_bytes = :testing.to_bson
   bench.report("Symbol#from_bson -------->") do
     count.times { BSON::Symbol.from_bson(symbol_bytes.rewind) }
   end
@@ -148,6 +149,6 @@ Benchmark.bm do |bench|
 
   doc_bytes = document.to_bson
   bench.report("Document#from_bson ------>") do
-    count.times { BSON::Document.from_bson(doc_bytes.rewind) }
+    count.times { Hash.from_bson(doc_bytes.rewind) }
   end
 end

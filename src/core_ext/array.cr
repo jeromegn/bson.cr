@@ -4,10 +4,10 @@ class Array(T)
   def self.from_bson(bson : IO)
     size = Int32.from_bson(bson)
 
-    arr = [] of BSON::ValueType
+    arr = [] of BSON::Type
 
     byte = bson.read_byte
-    until byte == BSON::NULL_BYTE
+    until byte == 0x00
       type = BSON.type_for_byte(byte)
       index = bson.read_char
       bson.read_byte
@@ -19,22 +19,14 @@ class Array(T)
   end
 
   def to_bson(bson : IO)
-    BSON.logger.debug "Array to bson"
-    BSON.logger.debug self
     bson_size.to_bson(bson)
-    BSON.logger.debug "added size.."
     each_with_index do |value, index|
-      BSON.logger.debug "Encoding array value of index #{index} (#{value.class})"
       bson.write_byte BSON.byte_for_type(value.class)
-      BSON.logger.debug "wrote array value type..."
       bson << index.to_s
-      BSON.logger.debug "write index number..."
-      BSON.append_null_byte(bson)
-      BSON.logger.debug "wrote null byte"
+      bson.write_byte 0x00
       value.to_bson(bson)
-      BSON.logger.debug "wrote value!"
     end
-    BSON.append_null_byte(bson)
+    bson.write_byte 0x00
   end
 
   def bson_size

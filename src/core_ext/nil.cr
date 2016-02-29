@@ -1,16 +1,8 @@
 struct Nil
-  include BSON::Value
+  include BSON::Specialized
+  extend BSON::Specialized::ClassMethods
 
   def self.from_bson(bson : IO)
     nil
   end
-
-  def to_bson(bson : IO)
-    # Do nothing
-  end
-
-  def bson_size
-    0
-  end
-
 end

@@ -10,7 +10,7 @@ struct Time
   end
 
   def bson_size
-    sizeof(typeof(Int64))
+    sizeof(Int64)
   end
 
 end

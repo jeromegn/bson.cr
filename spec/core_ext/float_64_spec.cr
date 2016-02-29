@@ -16,7 +16,7 @@ describe Float64 do
 
     it "puts the correct bytes" do
       [100, 2000, 30000, 400000].map(&.to_f64).each do |f|
-        f.to_bson.rewind.next_bytes(8).to_f64.should eq(f)
+        Float64.from_bson(f.to_bson.rewind).should eq(f)
       end
     end
 

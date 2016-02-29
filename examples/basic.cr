@@ -54,7 +54,7 @@ bson = MemoryIO.new
 
 puts String.from_bson(bson.rewind).inspect # => "a string"
 
-doc = BSON::Document{
+doc = Hash{
   "name" => "hello",
   "int" => 32
 }

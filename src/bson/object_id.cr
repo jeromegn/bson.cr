@@ -14,11 +14,12 @@ module BSON
     end
 
     def generation_time
-      Time.epoch(@bytes[0,4].to_i32)
+      io = MemoryIO.new(bytes[0,4])
+      Time.epoch(Int32.from_bson(io))
     end
 
     def to_s
-      @bytes.hexstring
+      bytes.hexstring
     end
 
     def inspect(io)
@@ -26,17 +27,17 @@ module BSON
     end
 
     def self.from_bson(bson : IO)
-      bytes = Slice(UInt8).new(12)
-      bson.read(bytes)
-      new(bytes)
+      oid = new(Slice(UInt8).new(12))
+      bson.read(oid.bytes)
+      oid
     end
 
     def to_bson(bson : IO)
-      bson.write(@bytes)
+      bson.write(bytes)
     end
 
     def bson_size
-      12
+      bytes.size
     end
 
     def ==(other : ObjectId)

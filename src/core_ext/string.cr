@@ -8,9 +8,12 @@ class String
   # 
   # Ends with a null byte (0x00)
   def self.from_bson(bson : IO)
-    
     size = Int32.from_bson(bson)
     from_bson_bytes(bson.next_bytes(size))
+  end
+
+  def self.from_bson_cstring(bson : IO)
+    (bson.gets(0x00.chr) || "").chomp(0x00.chr)
   end
 
   def self.from_bson_bytes(bytes)
@@ -19,8 +22,17 @@ class String
 
   def to_bson(bson : IO)
     bson_bytesize.to_bson(bson)
+    to_bson_cstring(bson)
+  end
+
+  def to_bson_cstring(bson : IO)
     bson.write(to_slice)
-    BSON.append_null_byte(bson) # null ending
+    bson.write_byte(0x00)
+  end
+  def to_bson_cstring
+    io = MemoryIO.new
+    to_bson_cstring(io)
+    io
   end
 
   def bson_bytesize

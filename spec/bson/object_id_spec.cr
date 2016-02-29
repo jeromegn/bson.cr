@@ -19,7 +19,8 @@ describe BSON::ObjectId do
     oid.bytes.size.should eq(12)
 
     # first 4 bytes is seconds since unix epoch
-    oid.bytes[0,4].to_i32.should eq(Time.utc_now.epoch)
+    io = MemoryIO.new(oid.bytes[0,4])
+    Int32.from_bson(io).should eq(Time.utc_now.epoch)
   end
 
   it "==" do

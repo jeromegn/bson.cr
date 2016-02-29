@@ -1,7 +1,6 @@
 module BSON
   struct Timestamp
     include BSON::Value
-
     getter :time, :increment
 
     def initialize(@increment : Int32, @time : Time)

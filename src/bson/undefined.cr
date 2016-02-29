@@ -1,17 +1,6 @@
 module BSON
   struct Undefined
-    include BSON::Value
-    def self.from_bson(bson : IO)
-      new
-    end
-
-    def to_bson(bson : IO)
-      # Do nothing
-    end
-
-    def bson_size
-      0
-    end
-    
+    include Specialized
+    extend Specialized::ClassMethods
   end
 end

@@ -24,4 +24,24 @@ describe String do
 
   end
 
+  describe "#to_bson_cstring" do
+    
+    it "encodes in the right format" do
+      str = "hello"
+      io = str.to_bson_cstring.rewind
+
+      io.next_bytes(str.size).map(&.chr).join("").should eq(str)
+
+      io.read_byte.should eq(0) # null ending
+    end
+
+  end
+
+  describe ".from_bson_cstring" do
+    it "can be decoded as BSON again" do
+      str = "hello world"
+      String.from_bson_cstring(str.to_bson_cstring.rewind).should eq(str)
+    end
+  end
+
 end
