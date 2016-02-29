@@ -18,14 +18,14 @@ end
 require "bson"
 
 io = File.open(File.expand_path("examples/sample.bson")) # A pretty representative BSON document
-BSON.decode(io) # => Returns a BSON::Document instance (quacks like a Hash(String, BSON::ValueType))
+BSON.decode(io) # => Returns a Hash instance
 
 bson, writer = IO.pipe
 "a string".to_bson(writer) # => encodes the string to BSON and writes to the IO
 
 puts String.from_bson(bson).inspect # => "a string"
 
-doc = BSON::Document{
+doc = Hash{
   "name" => "hello",
   "int" => 32
 }
