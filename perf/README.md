@@ -6,7 +6,7 @@ iMac 5K (Late 2014) 4 Ghz i7, 32 GB RAM @ 1600Mhz
 
 ### Details
 
-- Each operations listed below has been ran `1_000_000` times. The time showed is for the total time to do the operation that many times.
+Each operations listed below has been ran `1_000_000` times. The time showed is for the total time to do the operation that many times.
 
 ### Results
 
@@ -15,7 +15,7 @@ iMac 5K (Late 2014) 4 Ghz i7, 32 GB RAM @ 1600Mhz
 ```
 $ crystal run --release perf/bench.cr
                                  user     system      total        real
-Document#to_bson -------->   5.200000   5.530000   10.730000 (  7.394852)
+Hash#to_bson ------------>   5.200000   5.530000   10.730000 (  7.394852)
 Binary#to_bson ---------->   0.100000   0.130000   0.230000 (  0.154851)
 Code#to_bson ------------>   0.090000   0.130000   0.220000 (  0.148474)
 Bool(false)#to_bson ----->   0.090000   0.170000   0.260000 (  0.157431)
@@ -45,7 +45,7 @@ Regex#from_bson --------->   0.500000   0.320000   0.820000 (  0.620118)
 String#from_bson -------->   0.310000   0.240000   0.550000 (  0.424513)
 Symbol#from_bson -------->   0.330000   0.260000   0.590000 (  0.422463)
 Time#from_bson ---------->   0.000000   0.000000   0.000000 (  0.006262)
-Document#from_bson ------>   4.730000   4.870000   9.600000 (  6.617938)
+Hash#from_bson ---------->   4.730000   4.870000   9.600000 (  6.617938)
 ```
 
 ### Ruby 2.2.4
