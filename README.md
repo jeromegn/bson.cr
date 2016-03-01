@@ -42,9 +42,9 @@ puts BSON.decode(bson) # => { "name" => "hello", "int" => 32 }
 
 All types specified in the [BSON spec](http://bsonspec.org/spec.html).
 
-Relevant basic types of Crystal have been extended to add `#to_bson(IO)` and `.from_bson(IO)` for simplicity.
+Relevant basic types of Crystal have been extended to add `#to_bson(io : IO)` and `.from_bson(io : IO)` for simplicity.
 
-A `BSON::Document` is not much more than a `Hash(String, BSON::ValueType)`
+A `BSON::Document` is just an alias for `Hash(String, BSON::Type)`
 
 ## TODOs
 

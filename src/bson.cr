@@ -4,13 +4,35 @@ require "./core_ext/*"
 
 module BSON
   extend self
-  alias Type = Float64 | String | Hash(String, BSON::Type) | Array(BSON::Type) | BSON::Binary | BSON::Undefined | BSON::ObjectId | Bool | Time | Nil | Regex | BSON::DBPointer | BSON::Code | BSON::Symbol | Symbol | BSON::CodeWithScope | Int32 | BSON::Timestamp | Int64 | BSON::MinKey | BSON::MaxKey
+  alias Type = Float64 |
+               String |
+               Hash(String, Type) |
+               Array(Type) |
+               BSON::Binary |
+               BSON::Undefined |
+               BSON::ObjectId |
+               Bool |
+               Time |
+               Nil |
+               Regex |
+               BSON::DBPointer |
+               BSON::Code |
+               BSON::Symbol |
+               Symbol |
+               BSON::CodeWithScope |
+               Int32 |
+               BSON::Timestamp |
+               Int64 |
+               BSON::MinKey |
+               BSON::MaxKey
+  
+  alias Document = Hash(String, Type)
 
   TYPES = Hash{
     0x01 => Float64,
     0x02 => String,
-    0x03 => Hash(String, BSON::Type),
-    0x04 => Array(BSON::Type),
+    0x03 => Document,
+    0x04 => Array(Type),
     0x05 => BSON::Binary,
     0x06 => BSON::Undefined, # deprecated
     0x07 => BSON::ObjectId,
@@ -32,7 +54,7 @@ module BSON
   TYPES_BY_CLASS = TYPES.invert
 
   def decode(bson : IO)
-    Hash.from_bson(bson)
+    Document.from_bson(bson)
   end
 
   def read_cstring(bson : IO)

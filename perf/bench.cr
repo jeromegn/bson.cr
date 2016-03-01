@@ -5,14 +5,14 @@ Benchmark.bm do |bench|
 
   count = 1_000_000
 
-  document = Hash(String, BSON::Type){"field1": "test", "field2": "hello"}
+  document = BSON::Document{"field1": "test", "field2": "hello"}
   embedded = [] of BSON::Type
 
   5.times {
-    embedded << Hash(String, BSON::Type){"field1": 10, "field2": "test"} }
+    embedded << BSON::Document{"field1": 10, "field2": "test"} }
   document["embedded"] = embedded
 
-  bench.report("Hash#to_bson -------->") do
+  bench.report("Document#to_bson -------->") do
     count.times { document.to_bson }
   end
 
@@ -148,7 +148,7 @@ Benchmark.bm do |bench|
   end
 
   doc_bytes = document.to_bson
-  bench.report("Hash#from_bson ------>") do
-    count.times { Hash.from_bson(doc_bytes.rewind) }
+  bench.report("Document#from_bson ------>") do
+    count.times { BSON::Document.from_bson(doc_bytes.rewind) }
   end
 end

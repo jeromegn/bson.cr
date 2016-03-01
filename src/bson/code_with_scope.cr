@@ -9,7 +9,7 @@ module BSON
 
     def self.from_bson(bson : IO)
       bson.skip(4) # Throw away the total length.
-      new String.from_bson(bson), Hash(String, BSON::Type).from_bson(bson)
+      new String.from_bson(bson), Document.from_bson(bson)
     end
 
     def to_bson(bson : IO)

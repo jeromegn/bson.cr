@@ -4,7 +4,7 @@ class Hash(K, V)
   def self.from_bson(bson : IO)
     size = Int32.from_bson(bson)
 
-    doc = Hash(String, BSON::Type).new
+    doc = BSON::Document.new
     
     byte = bson.read_byte
     until byte == 0x00
