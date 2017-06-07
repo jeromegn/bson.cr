@@ -24,5 +24,4 @@ class Regex
     size += 1 if options.includes?(Options::MULTILINE)
     size += 1 # null ending
   end
-
 end

@@ -15,6 +15,5 @@ module BSON
         new
       end
     end
-
   end
 end

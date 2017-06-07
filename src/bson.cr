@@ -25,7 +25,6 @@ module BSON
                Int64 |
                BSON::MinKey |
                BSON::MaxKey
-  
   alias Document = Hash(String, Type)
 
   TYPES = Hash{
@@ -48,7 +47,7 @@ module BSON
     0x11 => BSON::Timestamp,
     0x12 => Int64,
     0xFF => BSON::MinKey, # internal
-    0x7F => BSON::MaxKey # internal
+    0x7F => BSON::MaxKey, # internal
   }
 
   TYPES_BY_CLASS = TYPES.invert
@@ -68,5 +67,4 @@ module BSON
   def byte_for_type(type)
     TYPES_BY_CLASS[type]
   end
-
 end
