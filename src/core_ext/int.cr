@@ -11,7 +11,7 @@ struct Int
 
   def to_slice
     slice = Slice(UInt8).new(sizeof(Int32))
-    io = MemoryIO.new(slice)
+    io = IO::Memory.new(slice)
     to_io(io, IO::ByteFormat::LittleEndian)
     slice
   end

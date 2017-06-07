@@ -1,9 +1,8 @@
 require "../spec_helper"
 
 describe BSON::ObjectId do
-
   it ".from_bson" do
-    io = MemoryIO.new
+    io = IO::Memory.new
     t = Time.utc_now
     t.epoch.to_i32.to_bson(io)
     io.write(Slice(UInt8).new(8))
@@ -19,7 +18,7 @@ describe BSON::ObjectId do
     oid.bytes.size.should eq(12)
 
     # first 4 bytes is seconds since unix epoch
-    io = MemoryIO.new(oid.bytes[0,4])
+    io = IO::Memory.new(oid.bytes[0, 4])
     Int32.from_bson(io).should eq(Time.utc_now.epoch)
   end
 
@@ -32,5 +31,4 @@ describe BSON::ObjectId do
   it "generation_time" do
     BSON::ObjectId.new.generation_time.should be_a(Time)
   end
-
 end
