@@ -2,14 +2,14 @@ require "../src/bson"
 require "benchmark"
 
 Benchmark.bm do |bench|
-
   count = 1_000_000
 
-  document = BSON::Document{"field1": "test", "field2": "hello"}
+  document = BSON::Document{"field1" => "test", "field2" => "hello"}
   embedded = [] of BSON::Type
 
   5.times {
-    embedded << BSON::Document{"field1": 10, "field2": "test"} }
+    embedded << BSON::Document{"field1" => 10, "field2" => "test"}
+  }
   document["embedded"] = embedded
 
   bench.report("Document#to_bson -------->") do
