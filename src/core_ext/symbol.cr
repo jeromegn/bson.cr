@@ -8,5 +8,4 @@ struct Symbol
   def self.from_bson(bson : IO)
     BSON::Symbol.from_bson(bson)
   end
-
 end

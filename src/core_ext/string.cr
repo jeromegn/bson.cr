@@ -2,10 +2,10 @@ class String
   include BSON::Value
 
   # Cast a String value from a BSON IO
-  # 
-  # First 4 bytes represent a Int32 (little-endian) for the 
+  #
+  # First 4 bytes represent a Int32 (little-endian) for the
   # size in bytes of the String
-  # 
+  #
   # Ends with a null byte (0x00)
   def self.from_bson(bson : IO)
     size = Int32.from_bson(bson)
@@ -17,7 +17,7 @@ class String
   end
 
   def self.from_bson_bytes(bytes)
-    bytes.map(&.chr).join("").chop
+    bytes.map(&.chr).join("").rchop
   end
 
   def to_bson(bson : IO)
@@ -29,8 +29,9 @@ class String
     bson.write(to_slice)
     bson.write_byte(0x00)
   end
+
   def to_bson_cstring
-    io = MemoryIO.new
+    io = IO::Memory.new
     to_bson_cstring(io)
     io
   end
@@ -41,7 +42,6 @@ class String
 
   def bson_size
     sizeof(Int32) + # size of the String as a Int32
-    bson_bytesize # actual bytes occupied by the String + null ending
+      bson_bytesize # actual bytes occupied by the String + null ending
   end
-
 end

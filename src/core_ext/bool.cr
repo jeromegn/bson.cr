@@ -1,7 +1,7 @@
 struct Bool
   include BSON::Value
 
-  BSON_TRUE_BYTE = 0x01_u8
+  BSON_TRUE_BYTE  = 0x01_u8
   BSON_FALSE_BYTE = 0x00_u8
 
   def self.from_bson(bson : IO)
@@ -19,5 +19,4 @@ struct Bool
   def bson_size
     1
   end
-
 end

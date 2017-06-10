@@ -5,7 +5,6 @@ class Hash(K, V)
     size = Int32.from_bson(bson)
 
     doc = BSON::Document.new
-    
     byte = bson.read_byte
     until byte == 0x00
       type = BSON.type_for_byte(byte)
@@ -28,11 +27,10 @@ class Hash(K, V)
   end
 
   def bson_size
-    sizeof(Int32) + # doc size display
-    (keys.size * 2) + # each key shows a type + null ending for each key
-    keys.map(&.to_s).sum(&.bytesize) + # all the keys size
-    values.sum(&.bson_size) + # all the values size
-    1 # null ending
+    sizeof(Int32) +                      # doc size display
+      (keys.size * 2) +                  # each key shows a type + null ending for each key
+      keys.map(&.to_s).sum(&.bytesize) + # all the keys size
+      values.sum(&.bson_size) +          # all the values size
+      1                                  # null ending
   end
-
 end

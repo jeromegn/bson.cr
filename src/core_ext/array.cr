@@ -32,10 +32,10 @@ class Array(T)
   def bson_size
     size = sizeof(Int32) # Size of the array
     each_with_index do |value, index|
-      size += 1 + # one-byte type
-        index.to_s.bytesize + # the index number's size
-        1 + # null byte after each index
-        value.bson_size
+      size += 1 +                   # one-byte type
+              index.to_s.bytesize + # the index number's size
+              1 +                   # null byte after each index
+              value.bson_size
     end
     size += 1 # null byte
   end
@@ -43,5 +43,4 @@ class Array(T)
   def as_slice
     Slice.new(to_unsafe, size)
   end
-
 end

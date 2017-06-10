@@ -1,4 +1,4 @@
-require "crypto/md5"
+require "digest/md5"
 
 module BSON
   struct ObjectId
@@ -14,7 +14,7 @@ module BSON
     end
 
     def generation_time
-      io = MemoryIO.new(bytes[0,4])
+      io = IO::Memory.new(bytes[0, 4])
       Time.epoch(Int32.from_bson(io))
     end
 
@@ -49,12 +49,11 @@ module BSON
     end
 
     class Generator
-
       getter :machine_id, :counter
 
       def initialize
         @counter = 0
-        @machine_id = Crypto::MD5.hex_digest(`hostname`)
+        @machine_id = Digest::MD5.hexdigest(`hostname`)
         @mutex = Mutex.new
       end
 
@@ -70,21 +69,19 @@ module BSON
 
       def generate(time, counter = 0)
         bytes = Slice(UInt8).new(12)
-        [0,1,2,3].each { |i| bytes[i] = time.to_i32.to_slice[i] }
-        machine_id_slice = Slice(UInt8).new(pointerof(@machine_id) as UInt8*, 3)
-        [4,5,6].each { |i| bytes[i] = machine_id_slice[i - 4] }
-        [7,8].each { |i| bytes[i] = process_id.to_slice[i - 7] }
-        [9,10,11].each { |i| bytes[i] = counter.to_slice[i - 9] }
+        [0, 1, 2, 3].each { |i| bytes[i] = time.to_i32.to_slice[i] }
+        machine_id_slice = Slice(UInt8).new(pointerof(@machine_id).as UInt8*, 3)
+        [4, 5, 6].each { |i| bytes[i] = machine_id_slice[i - 4] }
+        [7, 8].each { |i| bytes[i] = process_id.to_slice[i - 7] }
+        [9, 10, 11].each { |i| bytes[i] = counter.to_slice[i - 9] }
         bytes
       end
 
       def process_id
         Process.pid % 0xFFFF
       end
-
     end
 
     @@generator = Generator.new
-
   end
 end

@@ -18,6 +18,5 @@ module BSON
     def bson_size
       sizeof(Int64)
     end
-
   end
 end

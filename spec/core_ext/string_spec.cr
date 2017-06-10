@@ -1,11 +1,8 @@
 require "../spec_helper"
 
 describe String do
-  
   describe "#to_bson" do
-    
     it "encodes in the right format" do
-
       str = "hello"
       io = str.to_bson.rewind
 
@@ -21,11 +18,9 @@ describe String do
       str = "hello world"
       String.from_bson(str.to_bson.rewind).should eq(str)
     end
-
   end
 
   describe "#to_bson_cstring" do
-    
     it "encodes in the right format" do
       str = "hello"
       io = str.to_bson_cstring.rewind
@@ -34,7 +29,6 @@ describe String do
 
       io.read_byte.should eq(0) # null ending
     end
-
   end
 
   describe ".from_bson_cstring" do
@@ -43,5 +37,4 @@ describe String do
       String.from_bson_cstring(str.to_bson_cstring.rewind).should eq(str)
     end
   end
-
 end

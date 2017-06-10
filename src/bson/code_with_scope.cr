@@ -21,6 +21,5 @@ module BSON
     def bson_size
       4 + scope.bson_size + javascript.bson_size
     end
-
   end
 end

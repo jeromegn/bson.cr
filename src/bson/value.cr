@@ -1,8 +1,7 @@
 module BSON
   module Value
-
     def to_bson
-      io = MemoryIO.new
+      io = IO::Memory.new
       to_bson(io)
       io
     end
@@ -10,6 +9,5 @@ module BSON
     def bson_size
       sizeof(typeof(self))
     end
-
   end
 end

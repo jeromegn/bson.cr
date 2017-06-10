@@ -4,6 +4,7 @@ module BSON
 
     def initialize(@string = "")
     end
+
     forward_missing_to @string
 
     def self.from_bson(bson : IO)
@@ -13,6 +14,5 @@ module BSON
     def inspect(io)
       io << ":#{@string}"
     end
-
   end
 end

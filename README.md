@@ -4,12 +4,12 @@ BSON implemented in Crystal according to the [spec](http://bsonspec.org/spec.htm
 
 ## Installation
 
-Add this line to your application's `Projectfile`:
+Add this line to your application's `shard.yml`:
 
-```crystal
-deps do
-  github "jeromegn/bson.cr"
-end
+```yml
+dependencies:
+  bson:
+    github: jeromegn/bson.cr
 ```
 
 ## Usage
